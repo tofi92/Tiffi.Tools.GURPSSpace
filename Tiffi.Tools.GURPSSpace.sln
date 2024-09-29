@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tiffi.Tools.GURPSSpace", "Tiffi.Tools.GURPSSpace\Tiffi.Tools.GURPSSpace.csproj", "{52681A5E-E0ED-4F13-A1F7-C02174F0BFB3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tiffi.Tools.GURPSSpace.Tests", "Tiffi.Tools.GURPSSpace.Tests\Tiffi.Tools.GURPSSpace.Tests.csproj", "{067D1B06-5F12-44D5-8C20-F955605D415E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiffi.Tools.GURPSSpace.CLI", "Tiffi.Tools.GURPSSpace.CLI\Tiffi.Tools.GURPSSpace.CLI.csproj", "{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52681A5E-E0ED-4F13-A1F7-C02174F0BFB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52681A5E-E0ED-4F13-A1F7-C02174F0BFB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52681A5E-E0ED-4F13-A1F7-C02174F0BFB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52681A5E-E0ED-4F13-A1F7-C02174F0BFB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{067D1B06-5F12-44D5-8C20-F955605D415E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{067D1B06-5F12-44D5-8C20-F955605D415E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{067D1B06-5F12-44D5-8C20-F955605D415E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{067D1B06-5F12-44D5-8C20-F955605D415E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B8439287-4FEF-4A8F-BCC7-74A5DEB1D200}
+	EndGlobalSection
+EndGlobal
