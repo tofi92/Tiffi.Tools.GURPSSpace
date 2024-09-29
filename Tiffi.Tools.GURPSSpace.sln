@@ -7,7 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tiffi.Tools.GURPSSpace", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tiffi.Tools.GURPSSpace.Tests", "Tiffi.Tools.GURPSSpace.Tests\Tiffi.Tools.GURPSSpace.Tests.csproj", "{067D1B06-5F12-44D5-8C20-F955605D415E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tiffi.Tools.GURPSSpace.CLI", "Tiffi.Tools.GURPSSpace.CLI\Tiffi.Tools.GURPSSpace.CLI.csproj", "{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tiffi.Tools.GURPSSpace.CLI", "Tiffi.Tools.GURPSSpace.CLI\Tiffi.Tools.GURPSSpace.CLI.csproj", "{0A916BEE-48B4-4BFF-A672-8A409D72F4C1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Projektmappenelemente", "Projektmappenelemente", "{635E9BE5-1E36-4A8C-8A5B-20CA70AB3CB4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
