@@ -11,20 +11,18 @@ namespace Tiffi.Tools.GURPSSpace.CLI.OutputFormatters
 {
     public class HtmlOutputFormatter : IOutputFormatter
     {
-        public static double CM_PER_AU = 1.495978707E13;              // number of cm in an AU	
-        public static double CM_PER_KM = 1.0E5;                       // number of cm in a km		
-        public static double KM_PER_AU = CM_PER_AU / CM_PER_KM;
+
 
         public async Task<string> Format(StarSystem starSystem)
         {
             var size = 1500;
-            var sunSize = 10;
-            var maxOrbitInAU = starSystem.Worlds.Max(x => x.OrbitalRadius / KM_PER_AU);
-            var minOrbitInAU = starSystem.Worlds.Min(x => x.OrbitalRadius / KM_PER_AU);
+            var sunSize = starSystem.PrimaryStar.Radius;
+            var maxOrbitInAU = starSystem.Worlds.Max(x => x.OrbitalRadius);
+            var minOrbitInAU = starSystem.Worlds.Min(x => x.OrbitalRadius);
 
 
             var orbitScaling = size / 2 / maxOrbitInAU * 0.99;
-            var sizeScaling = sunSize / starSystem.PrimaryStar.Radius * 2;
+            var sizeScaling = 20;
 
             var doc = new HtmlDocument();
             var style = doc.CreateElement("style");
@@ -57,8 +55,21 @@ namespace Tiffi.Tools.GURPSSpace.CLI.OutputFormatters
 
             foreach (var world in starSystem.Worlds)
             {
-                var orbit = world.OrbitalRadius / KM_PER_AU * orbitScaling;
-                var planetSize = world.Diameter * sizeScaling;
+                var orbit = world.OrbitalRadius * sizeScaling * 10;
+                var planetSize = world.Diameter * 5;
+
+                if (world is Planet p && p.Classifier == WorldClassifier.AsteroidBelt)
+                {
+                    var asteroidBeltPath = doc.CreateElement("circle");
+                    asteroidBeltPath.SetAttributeValue("cx", "50%");
+                    asteroidBeltPath.SetAttributeValue("cy", "50%");
+                    asteroidBeltPath.SetAttributeValue("r", $"{orbit.ToString(CultureInfo.InvariantCulture)}");
+                    asteroidBeltPath.SetAttributeValue("fill", "transparent");
+                    asteroidBeltPath.SetAttributeValue("stroke", "blue");
+                    asteroidBeltPath.SetAttributeValue("stroke-width", "0.2");
+                    svg.AppendChild(asteroidBeltPath);
+                    continue;
+                }
 
                 var orbitPath = doc.CreateElement("circle");
                 orbitPath.SetAttributeValue("cx", "50%");

@@ -39,6 +39,7 @@ namespace Tiffi.Tools.GURPSSpace
         public static double PPM_PRSSURE = EARTH_SURF_PRES_IN_MILLIBARS / 1000000.0;
         public static double SOLAR_LUMINOSITY_IN_WATT = 3.828e26;
         public static double EARTH_ATMOSPHERIC_MASS = 5.15e18;
+        public static double SOLAR_RADIUS_IN_KM = 696342;
 
         public static double MOON_TO_EARTH_TIDAL_ACCELERATION = 1.1e-6; //in meters per second squared
         public static double EARTH_TO_MOON_TIDAL_ACCELERATION = 2.44e-5;

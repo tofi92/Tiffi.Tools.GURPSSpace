@@ -75,13 +75,13 @@ namespace Tiffi.Tools.GURPSSpace
             var newStar = new Star()
             {
                 Age = stellarAge * 1e9,
-                Luminosity = luminosity * Constants.SOLAR_LUMINOSITY_IN_WATT,
-                Mass = stellarMass * Constants.SOLAR_MASS_IN_KILOGRAMS,
-                Radius = radiusInAu * Constants.KM_PER_AU,
+                Luminosity = luminosity,
+                Mass = stellarMass,
+                Radius = radiusInAu,
                 IsPrimary = starIndex == 0,
-                InnerLimitRadius = innerLimitRadiusInAu * Constants.KM_PER_AU,
-                OuterLimitRadius = outerLimitRadiusInAu * Constants.KM_PER_AU,
-                SnowLine = snowLineInAu * Constants.KM_PER_AU
+                InnerLimitRadius = innerLimitRadiusInAu,
+                OuterLimitRadius = outerLimitRadiusInAu,
+                SnowLine = snowLineInAu
             };
 
             if (primaryStar != null)
@@ -101,7 +101,7 @@ namespace Tiffi.Tools.GURPSSpace
                 var separationTableRoll = dice.Roll3d(modifier);
                 var separation = OrbitalSeparationTable.First(x => x.Key.IsInRange(separationTableRoll)).Value;
                 var separationRoll = dice.Roll(2, 6);
-                newStar.AverageDistanceToPrimaryStar = separation.RadiusMultiplierInAu * separationRoll * Constants.KM_PER_AU;
+                newStar.AverageDistanceToPrimaryStar = separation.RadiusMultiplierInAu * separationRoll;
 
                 //if (separation.Separation == Separation.Distant)
                 //{
@@ -259,14 +259,14 @@ namespace Tiffi.Tools.GURPSSpace
                 //first get a list of orbital radii between the inner and outer limit
                 //every next radius is multiplied by the ratio of the orbital spacing (in AU, so we need to reconvert the existing limits)
                 List<double> orbits = [];
-                var orbitalRadius = (star.InnerLimitRadius / Constants.KM_PER_AU) * orbitalSpacing;
-                while (orbitalRadius < star.OuterLimitRadius / Constants.KM_PER_AU)
+                var orbitalRadius = (star.InnerLimitRadius) * orbitalSpacing;
+                while (orbitalRadius < star.OuterLimitRadius)
                 {
                     var currentOrbit = orbitalRadius;
-                    var orbit = orbitalRadius * Constants.KM_PER_AU;
+                    var orbit = orbitalRadius;
                     if (orbit > star.Radius * 2 && orbit > star.InnerLimitRadius && orbit < star.OuterLimitRadius)
                     {
-                        orbits.Add(orbitalRadius * Constants.KM_PER_AU);
+                        orbits.Add(orbitalRadius);
                     }
                     orbitalRadius *= orbitalSpacing;
                 }
@@ -284,7 +284,7 @@ namespace Tiffi.Tools.GURPSSpace
                     //and L is the star’s luminosity in solar units.
                     var habitableWorld = GenerateGardenWorld(star, closestToSnowLine);
                     //set the radius to whichever is bigger, but remove the closest radius to the snowline nevertheless
-                    var orbitalRadiusHabitableWorld = Math.Max(closestToSnowLine, (77300 / Math.Pow(habitableWorld.BlackBodyTemperature, 2)) * Math.Sqrt(star.Luminosity / Constants.SOLAR_LUMINOSITY_IN_WATT) * Constants.KM_PER_AU);
+                    var orbitalRadiusHabitableWorld = Math.Max(closestToSnowLine, (77300 / Math.Pow(habitableWorld.BlackBodyTemperature, 2)) * Math.Sqrt(star.Luminosity));
                     habitableWorld.OrbitalRadius = orbitalRadiusHabitableWorld;
                     worlds.Add(habitableWorld);
                     orbits.Remove(closestToSnowLine);
@@ -311,7 +311,7 @@ namespace Tiffi.Tools.GURPSSpace
                         var gasGiantSize = GasGiantSizeTable.First(x => x.Key.IsInRange(sizeRoll)).Value;
                         var massDensityRoll = dice.Roll3d();
                         var massAndDensity = GasGiantMassDensityTable.First(x => x.Key.Item1.IsInRange(massDensityRoll) && x.Key.Item2 == gasGiantSize).Value;
-                        var diameter = Math.Cbrt(massAndDensity.Mass / massAndDensity.Density) * Constants.KM_EARTH_DIAMETER;
+                        var diameter = Math.Cbrt(massAndDensity.Mass / massAndDensity.Density);
                         var eccentricityRoll = dice.Roll3d();
                         var eccentricity = EccentricityTable.First(x => x.Key.IsInRange(eccentricityRoll)).Value;
                         var periapsis = (1 - eccentricity) * orbit;
@@ -324,7 +324,7 @@ namespace Tiffi.Tools.GURPSSpace
                             Mass = massAndDensity.Mass,
                             Density = massAndDensity.Density,
                             Diameter = diameter,
-                            OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / star.Mass / Constants.SOLAR_MASS_IN_KILOGRAMS) * 365.26 * 24,
+                            OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / star.Mass) * 365.26 * 24,
                             Apoapsis = apoapsis,
                             Eccentricity = eccentricity,
                             Periapsis = periapsis,
@@ -440,7 +440,7 @@ namespace Tiffi.Tools.GURPSSpace
 
             var densityRoll = dice.Roll3d();
             var massAndDensity = GasGiantMassDensityTable.First(x => x.Key.Item1.IsInRange(densityRoll) && x.Key.Item2 == GasGiantSize.Medium).Value;
-            var diameter = Math.Cbrt(massAndDensity.Mass / massAndDensity.Density) * Constants.KM_EARTH_DIAMETER;
+            var diameter = Math.Cbrt(massAndDensity.Mass / massAndDensity.Density);
             var eccentricityRoll = dice.Roll3d();
             var eccentricity = EccentricityTable.First(x => x.Key.IsInRange(eccentricityRoll)).Value;
             var periapsis = (1 - eccentricity) * orbit;
@@ -458,7 +458,7 @@ namespace Tiffi.Tools.GURPSSpace
                 Mass = massAndDensity.Mass,
                 Density = massAndDensity.Density,
                 Diameter = diameter,
-                OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / star.Mass / Constants.SOLAR_MASS_IN_KILOGRAMS) * 365.26 * 24,
+                OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / star.Mass) * 365.26 * 24,
                 Apoapsis = apoapsis,
                 Eccentricity = eccentricity,
                 Periapsis = periapsis,
@@ -502,6 +502,7 @@ namespace Tiffi.Tools.GURPSSpace
 
             //determine all the properties!
             var atmosphericMass = dice.Roll3d() / 10d;
+
             var waterCoverage = dice.Roll(1, 6, 4) * 0.1;
             if (waterCoverage == 1) //100% water coverage not wanted
             {
@@ -548,21 +549,21 @@ namespace Tiffi.Tools.GURPSSpace
             {
                 Size = size,
                 Classifier = classifier,
-                AtmosphericMass = atmosphericMass * Constants.EARTH_ATMOSPHERIC_MASS,
+                AtmosphericMass = atmosphericMass,
                 WaterCoverage = waterCoverage,
                 AverageSurfaceTemperature = averageSurfaceTemperaturInK,
                 BlackBodyTemperature = blackBodyTemperature,
-                Density = density * Constants.EARTH_DENSITY,
-                Diameter = worldDiameter * Constants.KM_EARTH_DIAMETER,
-                Gravity = surfaceGravity * Constants.EARTH_GRAVITY,
-                Mass = planetMass * Constants.EARTH_MASS_IN_GRAMS / 1000,
-                Pressure = pressure * Constants.EARTH_SURF_PRES_IN_MILLIBARS,
+                Density = density,
+                Diameter = worldDiameter,
+                Gravity = surfaceGravity,
+                Mass = planetMass,
+                Pressure = pressure,
                 OverallResourceValue = OverallValue,
                 Eccentricity = eccentricity,
                 Apoapsis = apoapsis,
                 Periapsis = periapsis,
                 OrbitalRadius = orbit,
-                OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / mass / Constants.SOLAR_MASS_IN_KILOGRAMS) * 365.26 * 24,
+                OrbitalPeriod = Math.Sqrt(Math.Pow(orbit, 3) / mass) * 365.26 * 24,
             };
 
             if (star != null)
@@ -574,15 +575,22 @@ namespace Tiffi.Tools.GURPSSpace
                 planet.IsTideLocked = rotationPeriod.IsTideLocked;
             }
 
+            if (classifier == WorldClassifier.AsteroidBelt)
+            {
+                atmosphericMass = 0;
+                density = 0;
+            }
+
             return planet;
         }
 
         private IEnumerable<Moon> GenerateMoons(World world, Star star)
         {
+
             List<Moon> moons = [];
             if (world is GasGiant)
             {
-                var firstFamilyModifier = (world.OrbitalRadius / Constants.KM_PER_AU) switch
+                var firstFamilyModifier = (world.OrbitalRadius) switch
                 {
                     <= 0.1 => -10,
                     > 0.1 and <= 0.5 => -8,
@@ -595,9 +603,9 @@ namespace Tiffi.Tools.GURPSSpace
                 var numberOfSecondFamilyMoons = 0;
                 var numberOfThirdFamilyMoons = 0;
 
-                if ((world.OrbitalRadius / Constants.KM_PER_AU) > 0.1)
+                if ((world.OrbitalRadius) > 0.1)
                 {
-                    var secondFamilyModifier = (world.OrbitalPeriod / Constants.KM_PER_AU) switch
+                    var secondFamilyModifier = (world.OrbitalPeriod) switch
                     {
                         <= 0.5 => -5,
                         > 0.5 and <= 0.75 => -4,
@@ -608,9 +616,9 @@ namespace Tiffi.Tools.GURPSSpace
                     numberOfSecondFamilyMoons = dice.Roll(1, 6, secondFamilyModifier);
                 }
 
-                if ((world.OrbitalRadius / Constants.KM_PER_AU) > 0.5)
+                if ((world.OrbitalRadius) > 0.5)
                 {
-                    var thirdFamilyModifier = (world.OrbitalPeriod / Constants.KM_PER_AU) switch
+                    var thirdFamilyModifier = (world.OrbitalPeriod) switch
                     {
                         > 0.5 and <= 0.75 => -5,
                         > 0.75 and <= 1.5 => -4,
@@ -638,14 +646,19 @@ namespace Tiffi.Tools.GURPSSpace
 
 
             }
-            else
+            else if (world is Planet p)
             {
-                if ((world.OrbitalRadius / Constants.KM_PER_AU) < 0.5)
+                if (p.Classifier == WorldClassifier.AsteroidBelt)
+                {
+                    return [];
+                }
+
+                if ((world.OrbitalRadius) < 0.5)
                 {
                     return moons;
                 }
 
-                var modifier = (world.OrbitalRadius / Constants.KM_PER_AU) switch
+                var modifier = (world.OrbitalRadius) switch
                 {
                     >= 0.5 and < 0.75 => -3,
                     >= 0.75 and < 1.5 => -1,
@@ -745,11 +758,11 @@ namespace Tiffi.Tools.GURPSSpace
                 moonAsPlanetForValues = GeneratePlanet(moonWorldSize, WorldClassifier.Rock, world.Mass, orbitalRadius, null);
             }
 
-            var orbitalPeriod = 0.166 * Math.Sqrt((Math.Pow(orbitalRadius, 3) / Constants.KM_EARTH_DIAMETER) / (world.Mass + moonAsPlanetForValues.Mass) / Constants.EARTH_MASS_IN_GRAMS * 1000);
+            var orbitalPeriod = 0.166 * Math.Sqrt((Math.Pow(orbitalRadius, 3)) / (world.Mass + moonAsPlanetForValues.Mass));
 
-            var tidalEffectOnPlanet = (2230000 * moonAsPlanetForValues.Mass / Constants.EARTH_MASS_IN_GRAMS * 1000 * world.Diameter / Constants.KM_EARTH_DIAMETER) * Math.Pow(orbitalPeriod / Constants.KM_EARTH_DIAMETER, 3) * Constants.MOON_TO_EARTH_TIDAL_ACCELERATION;
-            var tidalEffectOnMoon = (2230000 * world.Mass / Constants.EARTH_MASS_IN_GRAMS * 1000 * moonAsPlanetForValues.Diameter / Constants.KM_EARTH_DIAMETER) * Math.Pow(orbitalPeriod / Constants.KM_EARTH_DIAMETER, 3) * Constants.MOON_TO_EARTH_TIDAL_ACCELERATION;
-            var totalTidalEffectOnMoon = (int)Math.Floor((tidalEffectOnMoon * star.Age / 1e9) / world.Mass / Constants.EARTH_MASS_IN_GRAMS * 1000);
+            var tidalEffectOnPlanet = (2230000 * moonAsPlanetForValues.Mass * world.Diameter) * Math.Pow(orbitalPeriod, 3);
+            var tidalEffectOnMoon = (2230000 * world.Mass * moonAsPlanetForValues.Diameter ) * Math.Pow(orbitalPeriod, 3);
+            var totalTidalEffectOnMoon = (int)Math.Floor((tidalEffectOnMoon * star.Age / 1e9) / world.Mass);
             var isTideLocked = totalTidalEffectOnMoon >= 50;
             var rotationPeriod = orbitalPeriod;
             if (!isTideLocked)
@@ -818,7 +831,7 @@ namespace Tiffi.Tools.GURPSSpace
 
         private (double RotationPeriod, bool IsTideLocked) GetRotationPeriod(World world, Star star)
         {
-            var totalTideEffect = (int)Math.Floor((world.Moons.Sum(m => m.TidalEffectOnWorld) * star.Age / 1e9) / world.Mass / Constants.EARTH_MASS_IN_GRAMS * 1000);
+            var totalTideEffect = (int)Math.Floor((world.Moons.Sum(m => m.TidalEffectOnWorld) * star.Age / 1e9) / world.Mass);
             var isTideLocked = totalTideEffect >= 50;
             var rotationPeriod = world.OrbitalPeriod;
             if (!isTideLocked)

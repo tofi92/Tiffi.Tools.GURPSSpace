@@ -6,9 +6,14 @@
     public record Star
     {
         /// <summary>
-        /// Mass in kg
+        /// Mass in solar masses
         /// </summary>
         public required double Mass { get; init; }
+
+        /// <summary>
+        /// Mass in kg
+        /// </summary>
+        public double MassInKg => Mass * Constants.SOLAR_MASS_IN_KILOGRAMS;
 
         /// <summary>
         /// Age in earth years
@@ -20,14 +25,24 @@
         public required double Age { get; init; }
 
         /// <summary>
-        /// Luminosity in Watts
+        /// Luminosity in solar luminosities
         /// </summary>
         public required double Luminosity { get; init; }
 
         /// <summary>
-        /// Radius in km
+        /// Luminosity in watts
+        /// </summary>
+        public double LuminosityInWatts => Luminosity * Constants.SOLAR_LUMINOSITY_IN_WATT;
+
+        /// <summary>
+        /// Radius in solar radius
         /// </summary>
         public required double Radius { get; init; }
+
+        /// <summary>
+        /// Radius in km
+        /// </summary>
+        public double RadiusInKm => Radius * Constants.SOLAR_RADIUS_IN_KM;
 
         /// <summary>
         /// If this star is the primary star of the star system
@@ -35,22 +50,37 @@
         public required bool IsPrimary { get; init; }
 
         /// <summary>
-        /// The inner limit in km where planets can be formed
+        /// The inner limit in AU where planets can be formed
         /// </summary>
         public required double InnerLimitRadius { get; init; }
 
         /// <summary>
-        /// The outer limit in km where planets can be formed
+        /// Inner limit in km
+        /// </summary>
+        public double InnerLimitRadiusInKm => InnerLimitRadius * Constants.KM_PER_AU;
+
+        /// <summary>
+        /// The outer limit in AU where planets can be formed
         /// </summary>
         public required double OuterLimitRadius { get; init; }
 
         /// <summary>
-        /// The limit in km where water ice could exist
+        /// Outer limit in km
+        /// </summary>
+        public double OuterLimitRadiusInKm => OuterLimitRadius * Constants.KM_PER_AU;
+
+        /// <summary>
+        /// The limit in AU where water ice could exist
         /// </summary>
         public required double SnowLine { get; init; }
 
         /// <summary>
-        /// Average distance in km to the primary star
+        /// Snow line in km
+        /// </summary>
+        public double SnowLineInKm => SnowLine * Constants.KM_PER_AU;
+
+        /// <summary>
+        /// Average distance in au to the primary star
         /// </summary>
         /// <remarks>
         /// Only set if this star is not the primary star of the system
